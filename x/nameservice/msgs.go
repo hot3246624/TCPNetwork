@@ -63,8 +63,8 @@ func (msg MsgTransfer) ValidateBasic() sdk.Error {
 		return sdk.ErrInvalidAddress(msg.To.String())
 	}
 
-	if msg.Value.IsPositive() {
-		return sdk.ErrUnknownRequest("Name and/or Value cannot be empty")
+	if msg.Value.IsNegative() {
+		return sdk.ErrUnknownRequest("Transfer Value cannot be negative")
 	}
 	return nil
 }
