@@ -1,4 +1,4 @@
-module app
+module tcp
 
 go 1.12
 

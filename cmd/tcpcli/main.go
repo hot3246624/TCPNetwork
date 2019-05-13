@@ -26,10 +26,10 @@ import (
 
 const (
 	storeAcc = "acc"
-	storeNS  = "nameservice"
+	storeNS  = "tcp"
 )
 
-var defaultCLIHome = os.ExpandEnv("$HOME/.appcli")
+var defaultCLIHome = os.ExpandEnv("$HOME/.tcpcli")
 
 func main() {
 	cobra.EnableCommandSorting = false
@@ -48,8 +48,8 @@ func main() {
 	}
 
 	rootCmd := &cobra.Command{
-		Use:   "appcli",
-		Short: "nameservice Client",
+		Use:   "tcpcli",
+		Short: "TCPNetwork Client",
 	}
 
 	// Add --chain-id to persistent flags and mark it required
@@ -71,7 +71,7 @@ func main() {
 		client.LineBreak,
 	)
 
-	executor := cli.PrepareMainCmd(rootCmd, "NS", defaultCLIHome)
+	executor := cli.PrepareMainCmd(rootCmd, "TCP", defaultCLIHome)
 	err := executor.Execute()
 	if err != nil {
 		panic(err)
