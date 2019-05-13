@@ -82,3 +82,20 @@ func (msg MsgTransfer) GetSignBytes() []byte {
 func (msg MsgTransfer) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{msg.From}
 }
+
+
+// NewMsgContractDeploy is a constructor function for MsgTransfer
+func NewMsgContractDeploy(from sdk.AccAddress) MsgContractDeploy {
+	// TODO
+	return MsgContractDeploy{
+		From :  from
+	}
+}
+
+// NewMsgContractDeploy is a constructor function for MsgTransfer
+func MsgContractExec(from sdk.AccAddress) MsgContractExec {
+	// TODO
+	return MsgContractExec{
+		From :  from
+	}
+}
