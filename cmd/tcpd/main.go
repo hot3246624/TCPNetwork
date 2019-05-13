@@ -24,7 +24,7 @@ import (
 
 	gaiaInit "github.com/cosmos/cosmos-sdk/cmd/gaia/init"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	app "github.com/cosmos/sdk-application-tutorial"
+	app "github.com/cosmos/hot3246624/TCPNetwork"
 	abci "github.com/tendermint/tendermint/abci/types"
 	cfg "github.com/tendermint/tendermint/config"
 	dbm "github.com/tendermint/tendermint/libs/db"
@@ -55,7 +55,7 @@ func main() {
 	server.AddCommands(ctx, cdc, rootCmd, newApp, appExporter())
 
 	// prepare and add flags
-	executor := cli.PrepareBaseCmd(rootCmd, "NS", DefaultNodeHome)
+	executor := cli.PrepareBaseCmd(rootCmd, "TCP", DefaultNodeHome)
 	err := executor.Execute()
 	if err != nil {
 		// handle with #870
@@ -64,13 +64,13 @@ func main() {
 }
 
 func newApp(logger log.Logger, db dbm.DB, traceStore io.Writer) abci.Application {
-	return app.NewNameServiceApp(logger, db)
+	return app.NewTCPApp(logger, db)
 }
 
 func appExporter() server.AppExporter {
 	return func(logger log.Logger, db dbm.DB, _ io.Writer, _ int64, _ bool, _ []string) (
 		json.RawMessage, []tmtypes.GenesisValidator, error) {
-		dapp := app.NewNameServiceApp(logger, db)
+		dapp := app.NewTCPApp(logger, db)
 		return dapp.ExportAppStateAndValidators()
 	}
 }
