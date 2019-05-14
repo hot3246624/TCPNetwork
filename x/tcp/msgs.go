@@ -88,15 +88,11 @@ func (msg MsgTransfer) GetSigners() []sdk.AccAddress {
 // NewMsgContractDeploy is a constructor function for MsgTransfer
 func NewMsgContractDeploy(from sdk.AccAddress) MsgContractDeploy {
 	// TODO
-	return MsgContractDeploy{
-		From :  from,
-	}
+	return MsgContractDeploy{}
 }
 
 // NewMsgContractDeploy is a constructor function for MsgTransfer
 func NewMsgContractExec(from sdk.AccAddress) MsgContractExec {
 	// TODO
-	return MsgContractExec{
-		From :  from,
-	}
+	return MsgContractExec{}
 }
