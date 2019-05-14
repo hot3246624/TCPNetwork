@@ -32,3 +32,4 @@ func (mc ModuleClient) GetTxCmd() *cobra.Command {
 
 	return tcpTxCmd
 }
+
