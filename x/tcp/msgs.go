@@ -46,10 +46,11 @@ type MsgContractExec struct {
 
 // NewMsgTransfer is a constructor function for MsgTransfer
 func NewMsgTransfer(from sdk.AccAddress, to sdk.AccAddress, value sdk.Coin, fee sdk.Coin) MsgTransfer {
+
 	return MsgTransfer{
 		From :  from,
 		To : to,
-		Value : value
+		Value : value,
 		// Fee : fee
 	}
 }
@@ -89,7 +90,7 @@ func (msg MsgTransfer) GetSigners() []sdk.AccAddress {
 func NewMsgContractDeploy(from sdk.AccAddress) MsgContractDeploy {
 	// TODO
 	return MsgContractDeploy{
-		From :  from
+		From :  from,
 	}
 }
 
@@ -97,6 +98,6 @@ func NewMsgContractDeploy(from sdk.AccAddress) MsgContractDeploy {
 func NewMsgContractExec(from sdk.AccAddress) MsgContractExec {
 	// TODO
 	return MsgContractExec{
-		From :  from
+		From :  from,
 	}
 }
