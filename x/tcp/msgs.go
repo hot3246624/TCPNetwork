@@ -49,8 +49,8 @@ func NewMsgTransfer(from sdk.AccAddress, to sdk.AccAddress, value sdk.Coin, fee 
 	return MsgTransfer{
 		From :  from,
 		To : to,
-		Value : value,
-		Fee : fee
+		Value : value
+		// Fee : fee
 	}
 }
 
@@ -94,7 +94,7 @@ func NewMsgContractDeploy(from sdk.AccAddress) MsgContractDeploy {
 }
 
 // NewMsgContractDeploy is a constructor function for MsgTransfer
-func MsgContractExec(from sdk.AccAddress) MsgContractExec {
+func NewMsgContractExec(from sdk.AccAddress) MsgContractExec {
 	// TODO
 	return MsgContractExec{
 		From :  from

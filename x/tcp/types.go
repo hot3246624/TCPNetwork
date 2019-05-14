@@ -4,30 +4,27 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// Initial Starting Price for a name that was never previously owned
-var MinNamePrice = sdk.Coins{sdk.NewInt64Coin("nametoken", 1)}
-
 type Amount struct {
-	Address []sdk.AccAddress
-	Value   []sdk.Coin
+	Address []sdk.AccAddress	`json:"address"`
+	Value   []sdk.Coin			`json:"value"`
 }
 
 // user request for ContractExec
 type RequestParam struct {
-	From        sdk.AccAddress
-	CID         sdk.AccAddress
-	Proxy       sdk.AccAddress
-	DataSources []Amount
-	Fee         sdk.Coin
-	Sig         []byte // signature
+	From        sdk.AccAddress	`json:"from"`
+	CID         sdk.AccAddress	`json:"cid"`
+	Proxy       sdk.AccAddress	`json:"proxy"`
+	DataSources []Amount		`json:"datasource"`
+	Fee         sdk.Coin		`json:"fee"`
+	Sig         []byte			`json:"signature"`
 
 }
 
 type Balance struct {
-	Address  []sdk.AccAddress
-	balances []sdk.Coin
+	Address  []sdk.AccAddress	`json:"address"`
+	Value []sdk.Coin			`json:"value"`
 }
 
 type State struct {
-	balances []Balance
+	balances []Balance			`json:"balances"`
 }
