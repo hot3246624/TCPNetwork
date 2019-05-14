@@ -2,7 +2,9 @@ package client
 
 import (
 	"github.com/cosmos/cosmos-sdk/client"
-	tcp "github.com/hot3246624/TCPNetwork/x/tcp/client/cli"
+
+	tcpcmd "github.com/hot3246624/TCPNetwork/x/tcp/client/cli"
+
 	"github.com/spf13/cobra"
 	amino "github.com/tendermint/go-amino"
 )
@@ -25,7 +27,7 @@ func (mc ModuleClient) GetTxCmd() *cobra.Command {
 	}
 
 	tcpTxCmd.AddCommand(client.PostCommands(
-		tcp.GetCmdTransfer(mc.cdc),
+		tcpcmd.GetCmdTransfer(mc.cdc),
 	)...)
 
 	return tcpTxCmd

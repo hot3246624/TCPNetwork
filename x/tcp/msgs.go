@@ -11,9 +11,10 @@ type MsgTransfer struct {
 	From sdk.AccAddress
 	To sdk.AccAddress
 	Value sdk.Coin
-	State []byte // TODO
-	Fee sdk.Coin
+	// State []byte // TODO
+	// Fee sdk.Coin
 
+	// validation
 	// From balance >= Value + Fee
 	// From balance - Value - Fee = NewState of From
 	// To balance + Value = NewState of To

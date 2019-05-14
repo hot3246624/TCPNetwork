@@ -75,7 +75,6 @@ func GetCmdContractDeploy(cdc *codec.Codec) *cobra.Command {
 	}
 }
 
-
 // GetCmdContractExec is the CLI command for deploying contract
 func GetCmdContractExec(cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
