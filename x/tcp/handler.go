@@ -25,12 +25,12 @@ func NewHandler(keeper Keeper) sdk.Handler {
 
 // Handle a message to transfer
 func handleMsgTransfer(ctx sdk.Context, keeper Keeper, msg MsgTransfer) sdk.Result {
-	if !msg.From.Equals(keeper.GetOwner(ctx, msg.From)) { // Checks if the the msg sender is the same as the current owner
-		return sdk.ErrUnauthorized("Incorrect Owner").Result() // If not, throw an error
+	// transfer coins
+	_, err := keeper.coinKeeper.SendCoins(ctx, msg.From, msg.To, msg.Value)
+	if err != nil {
+		return sdk.ErrInsufficientCoins("does not have enough coins").Result()
 	}
-	// keeper.Transfer(ctx, msg.From, msg.To, msg.Value)
-
-	return sdk.Result{}                      // return
+	return sdk.Result{}
 }
 
 // Handle a message to deploy contract
