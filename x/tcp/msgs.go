@@ -51,17 +51,16 @@ func NewMsgTransfer(from sdk.AccAddress, to sdk.AccAddress, value sdk.Coin, fee 
 		From :  from,
 		To : to,
 		Value : value,
-		// Fee : fee
 	}
 }
 
 // ValidateBasic runs stateless checks on the message
-func (msg MsgTransfer) ValidateBasic() sdk.Error {
-	if msg.From.Empty()) {
+func (msg MsgTransfer) ValidateBasic() sdk.Error {}
+	if msg.From.Empty() {
 		return sdk.ErrInvalidAddress(msg.From.String())
 	}
 
-	if msg.To.Empty()) {
+	if msg.To.Empty() {
 		return sdk.ErrInvalidAddress(msg.To.String())
 	}
 
