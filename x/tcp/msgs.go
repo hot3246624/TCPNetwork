@@ -54,6 +54,12 @@ func NewMsgTransfer(from sdk.AccAddress, to sdk.AccAddress, value sdk.Coin, fee 
 	}
 }
 
+// Route should return the name of the module
+func (msg MsgTransfer) Route() string { return "tcp" }
+
+// Type should return the action
+func (msg MsgTransfer) Type() string { return "transfer" }
+
 // ValidateBasic runs stateless checks on the message
 func (msg MsgTransfer) ValidateBasic() sdk.Error {}
 	if msg.From.Empty() {
