@@ -97,6 +97,12 @@ func NewMsgContractDeploy(from sdk.AccAddress) MsgContractDeploy {
 	return MsgContractDeploy{}
 }
 
+// Route should return the name of the module
+func (msg MsgContractDeploy) Route() string { return "tcp" }
+
+// Type should return the action
+func (msg MsgContractDeploy) Type() string { return "deploy" }
+
 // ValidateBasic runs stateless checks on the message
 func (msg MsgContractDeploy) ValidateBasic() sdk.Error {
 	if msg.From.Empty() {
@@ -113,6 +119,12 @@ func NewMsgContractExec(from sdk.AccAddress) MsgContractExec {
 	// TODO
 	return MsgContractExec{}
 }
+
+// Route should return the name of the module
+func (msg MsgContractExec) Route() string { return "tcp" }
+
+// Type should return the action
+func (msg MsgContractExec) Type() string { return "exec" }
 
 // ValidateBasic runs stateless checks on the message
 func (msg MsgContractExec) ValidateBasic() sdk.Error {
