@@ -66,7 +66,7 @@ func NewTCPApp(logger log.Logger, db dbm.DB) *tcpApp {
 	}
 
 	// The ParamsKeeper handles parameter storage for the application
-	app.paramsKeeper = params.NewKeeper(app.cdc, app.keyParams, app.tkeyParams, "")
+	app.paramsKeeper = params.NewKeeper(app.cdc, app.keyParams, app.tkeyParams)
 
 	// The AccountKeeper handles address -> account lookups
 	app.accountKeeper = auth.NewAccountKeeper(
