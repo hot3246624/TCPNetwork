@@ -97,8 +97,28 @@ func NewMsgContractDeploy(from sdk.AccAddress) MsgContractDeploy {
 	return MsgContractDeploy{}
 }
 
+// ValidateBasic runs stateless checks on the message
+func (msg MsgContractDeploy) ValidateBasic() sdk.Error {
+	if msg.From.Empty() {
+		return sdk.ErrInvalidAddress(msg.From.String())
+	}
+
+	return nil
+}
+
+
+
 // NewMsgContractDeploy is a constructor function for MsgTransfer
 func NewMsgContractExec(from sdk.AccAddress) MsgContractExec {
 	// TODO
 	return MsgContractExec{}
+}
+
+// ValidateBasic runs stateless checks on the message
+func (msg MsgContractExec) ValidateBasic() sdk.Error {
+	if msg.From.Empty() {
+		return sdk.ErrInvalidAddress(msg.From.String())
+
+	}
+	return nil
 }
