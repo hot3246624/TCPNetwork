@@ -70,7 +70,7 @@ func (msg MsgTransfer) ValidateBasic() sdk.Error {
 		return sdk.ErrInvalidAddress(msg.To.String())
 	}
 
-	if msg.Value.IsNegative() {
+	if !msg.Value.IsAllPositive() {
 		return sdk.ErrUnknownRequest("Transfer Value cannot be negative")
 	}
 	return nil
