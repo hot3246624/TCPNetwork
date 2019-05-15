@@ -26,10 +26,21 @@ func NewHandler(keeper Keeper) sdk.Handler {
 // Handle a message to transfer
 func handleMsgTransfer(ctx sdk.Context, keeper Keeper, msg MsgTransfer) sdk.Result {
 	// transfer coins
-	_, err := keeper.coinKeeper.SendCoins(ctx, msg.From, msg.To, msg.Value)
+	if !msg.Value.IsNegative() {
+		return sdk.ErrInvalidCoins(msg.Value.String())
+	}
+
+	_, err := keeper.coinKeeper.SubtractCoins(ctx, msg.From, msg.Value)
 	if err != nil {
 		return sdk.ErrInsufficientCoins("does not have enough coins").Result()
 	}
+
+	_, err = keeper.coinKeeper.AddCoins(ctx, msg.To, msg.Value)
+	if err != nil {
+		// TODO
+		return sdk.ErrInsufficientCoins("does not have enough coins").Result()
+	}
+
 	return sdk.Result{}
 }
 
