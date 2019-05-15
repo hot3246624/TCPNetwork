@@ -40,7 +40,7 @@ func handleContractDeploy(ctx sdk.Context, keeper Keeper, msg MsgContractDeploy)
 }
 
 // Handle a message to exec contract
-func handleMsgContractExec(ctx, ctx sdk.Context, keeper Keeper, msg MsgContractExec) sdk.Result {
+func handleMsgContractExec(ctx sdk.Context, keeper Keeper, msg MsgContractExec) sdk.Result {
 	// TODO
 	return sdk.Result{}
 }
