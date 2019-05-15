@@ -66,7 +66,7 @@ func NewTCPApp(logger log.Logger, db dbm.DB) *tcpApp {
 	}
 
 	// The ParamsKeeper handles parameter storage for the application
-	app.paramsKeeper = params.NewKeeper(app.cdc, app.keyParams, app.tkeyParams)
+	app.paramsKeeper = params.NewKeeper(app.cdc, app.keyParams, app.tkeyParams, "")
 
 	// The AccountKeeper handles address -> account lookups
 	app.accountKeeper = auth.NewAccountKeeper(
@@ -95,7 +95,7 @@ func NewTCPApp(logger log.Logger, db dbm.DB) *tcpApp {
 	)
 
 	// The AnteHandler handles signature verification and transaction pre-processing
-	app.SetAnteHandler(auth.NewAnteHandler(app.accountKeeper, app.feeCollectionKeeper))
+	app.SetAnteHandler(auth.NewAnteHandler(app.accountKeeper, app.feeCollectionKeeper), "")
 
 	// The app.Router is the main transaction router where each module registers its routes
 	// Register the bank and tcp routes here
@@ -103,10 +103,10 @@ func NewTCPApp(logger log.Logger, db dbm.DB) *tcpApp {
 		AddRoute("bank", bank.NewHandler(app.bankKeeper)).
 		AddRoute("tcp", tcp.NewHandler(app.tcpKeeper))
 
-	// The app.QueryRouter is the main query router where each module registers its routes
-	app.QueryRouter().
-		AddRoute("tcp", tcp.NewQuerier(app.tcpKeeper)).
-		AddRoute("acc", auth.NewQuerier(app.accountKeeper))
+	//// The app.QueryRouter is the main query router where each module registers its routes
+	//app.QueryRouter().
+	//	AddRoute("tcp", tcp.NewQuerier(app.tcpKeeper)).
+	//	AddRoute("acc", auth.NewQuerier(app.accountKeeper))
 
 	// The initChainer handles translating the genesis.json file into initial state for the network
 	app.SetInitChainer(app.initChainer)
