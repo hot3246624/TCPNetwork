@@ -107,6 +107,21 @@ func (msg MsgContractDeploy) ValidateBasic() sdk.Error {
 	return nil
 }
 
+// GetSignBytes encodes the message for signing
+func (msg MsgContractDeploy) GetSignBytes() []byte {
+	b, err := json.Marshal(msg)
+	if err != nil {
+		panic(err)
+	}
+	return sdk.MustSortJSON(b)
+}
+
+// GetSigners defines whose signature is required
+func (msg MsgContractDeploy) GetSigners() []sdk.AccAddress {
+	return []sdk.AccAddress{msg.From}
+}
+
+
 // NewMsgContractDeploy is a constructor function for MsgTransfer
 func NewMsgContractExec(from sdk.AccAddress) MsgContractExec {
 	// TODO
@@ -126,4 +141,18 @@ func (msg MsgContractExec) ValidateBasic() sdk.Error {
 
 	}
 	return nil
+}
+
+// GetSignBytes encodes the message for signing
+func (msg MsgContractExec) GetSignBytes() []byte {
+	b, err := json.Marshal(msg)
+	if err != nil {
+		panic(err)
+	}
+	return sdk.MustSortJSON(b)
+}
+
+// GetSigners defines whose signature is required
+func (msg MsgContractExec) GetSigners() []sdk.AccAddress {
+	return []sdk.AccAddress{msg.From}
 }
