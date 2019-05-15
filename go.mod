@@ -1,4 +1,4 @@
-module tcp
+module TCPNetwork
 
 go 1.12
 
