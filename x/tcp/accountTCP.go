@@ -13,9 +13,11 @@ type ConAccount struct {
 	result map[string]string
 }
 
-func NewTCPWithDeploy(caller auth.Account,contractCode []byte) ConAccount{
-	addr := caller.GetAddress().Bytes()
-	nonce := caller.GetSequence()
+func NewTCPWithDeploy(caller sdk.AccAddress,contractCode []byte) ConAccount{
+	//for test, create a new account
+	callerAcc := auth.NewBaseAccountWithAddress(caller)
+	addr := callerAcc.GetAddress().Bytes()
+	nonce := callerAcc.GetSequence()
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, nonce)
 	cAddr := append(addr, b...)
