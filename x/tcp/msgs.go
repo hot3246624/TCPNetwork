@@ -10,7 +10,7 @@ import (
 type MsgTransfer struct {
 	From sdk.AccAddress
 	To sdk.AccAddress
-	Value sdk.Coin
+	Value sdk.Coins
 	// State []byte // TODO
 	// Fee sdk.Coin
 
@@ -45,7 +45,7 @@ type MsgContractExec struct {
 
 
 // NewMsgTransfer is a constructor function for MsgTransfer
-func NewMsgTransfer(from sdk.AccAddress, to sdk.AccAddress, value sdk.Coin, fee sdk.Coin) MsgTransfer {
+func NewMsgTransfer(from sdk.AccAddress, to sdk.AccAddress, value sdk.Coins, fee sdk.Coin) MsgTransfer {
 
 	return MsgTransfer{
 		From :  from,
@@ -70,7 +70,7 @@ func (msg MsgTransfer) ValidateBasic() sdk.Error {
 		return sdk.ErrInvalidAddress(msg.To.String())
 	}
 
-	if msg.Value.IsNegative() {
+	if !msg.Value.IsAllPositive() {
 		return sdk.ErrUnknownRequest("Transfer Value cannot be negative")
 	}
 	return nil
