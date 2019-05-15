@@ -95,7 +95,7 @@ func NewTCPApp(logger log.Logger, db dbm.DB) *tcpApp {
 	)
 
 	// The AnteHandler handles signature verification and transaction pre-processing
-	app.SetAnteHandler(auth.NewAnteHandler(app.accountKeeper, app.feeCollectionKeeper), "")
+	app.SetAnteHandler(auth.NewAnteHandler(app.accountKeeper, app.feeCollectionKeeper, ""))
 
 	// The app.Router is the main transaction router where each module registers its routes
 	// Register the bank and tcp routes here
