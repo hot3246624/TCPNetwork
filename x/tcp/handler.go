@@ -30,7 +30,8 @@ func handleMsgTransfer(ctx sdk.Context, keeper Keeper, msg MsgTransfer) sdk.Resu
 	//	return sdk.ErrInsufficientCoins(msg.Value.String())
 	//}
 
-	_, err := keeper.coinKeeper.SendCoins(ctx, msg.From, msg.To, msg.Value)
+	amt := []sdk.Coins{msg.Value};
+	_, err := keeper.coinKeeper.SendCoins(ctx, msg.From, msg.To, amt)
 	if err != nil {
 		return sdk.ErrInsufficientCoins("does not have enough coins").Result()
 	}
