@@ -16,8 +16,8 @@ import (
 // GetCmdTransfer is the CLI command for sending coins
 func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
-		Use:   "transfer [from] [to] [amount] [fee]",
-		Short: "transfer coin",
+		Use:   "transfer [from] [to] [amount]",
+		Short: "transfer coins",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc).WithAccountDecoder(cdc)
@@ -34,7 +34,7 @@ func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 			}
 
 			// TODO
-			msg := tcp.NewMsgTransfer(args[0], args[1], coins, coins)
+			msg := tcp.NewMsgTransfer(args[0], args[1], coins)
 			err = msg.ValidateBasic()
 			if err != nil {
 				return err
