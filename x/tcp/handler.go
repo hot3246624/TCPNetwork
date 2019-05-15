@@ -27,7 +27,7 @@ func NewHandler(keeper Keeper) sdk.Handler {
 func handleMsgTransfer(ctx sdk.Context, keeper Keeper, msg MsgTransfer) sdk.Result {
 	// transfer coins
 	if !msg.Value.IsValid() {
-		return sdk.ErrInsufficientCoins(msg.Value.String())
+		return sdk.ErrInsufficientCoins("invalid coins").Result()
 	}
 
 	err := keeper.coinKeeper.SendCoins(ctx, msg.From, msg.To, msg.Value)
