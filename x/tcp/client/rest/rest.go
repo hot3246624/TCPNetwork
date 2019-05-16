@@ -18,8 +18,9 @@ import (
 
 // RegisterRoutes - Central function to define routes that get registered by the main application
 func RegisterRoutes(cliCtx context.CLIContext, r *mux.Router, cdc *codec.Codec, storeName string) {
-	r.HandleFunc(fmt.Sprintf("/%s/names", storeName), namesHandler(cdc, cliCtx, storeName)).Methods("GET")
-	r.HandleFunc(fmt.Sprintf("/%s/names", storeName), transferHandler(cdc, cliCtx)).Methods("POST")
+	r.HandleFunc(fmt.Sprintf("/%s", storeName), transferHandler(cdc, cliCtx)).Methods("POST")
+	r.HandleFunc(fmt.Sprintf("/%s", storeName), deployContractHandler(cdc, cliCtx)).Methods("POST")
+	r.HandleFunc(fmt.Sprintf("/%s", storeName), execContractHandler(cdc, cliCtx)).Methods("POST")
 }
 
 
@@ -29,6 +30,7 @@ type transferReq struct {
 	Amount  string       `json:"amount"`
 }
 
+// transferHandler
 func transferHandler(cdc *codec.Codec, cliCtx context.CLIContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// TODO
@@ -41,13 +43,18 @@ func transferHandler(cdc *codec.Codec, cliCtx context.CLIContext) http.HandlerFu
 	}
 }
 
-func namesHandler(cdc *codec.Codec, cliCtx context.CLIContext, storeName string) http.HandlerFunc {
+
+// deployContractHandler
+func deployContractHandler(cdc *codec.Codec, cliCtx context.CLIContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		res, err := cliCtx.QueryWithData(fmt.Sprintf("custom/%s/names", storeName), nil)
-		if err != nil {
-			rest.WriteErrorResponse(w, http.StatusNotFound, err.Error())
-			return
-		}
-		rest.PostProcessResponse(w, cdc, res, cliCtx.Indent)
+		// TODO
+	}
+}
+
+// execContractHandler
+func execContractHandler(cdc *codec.Codec, cliCtx context.CLIContext) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// TODO
+
 	}
 }
