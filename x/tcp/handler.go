@@ -45,7 +45,7 @@ func handleContractDeploy(ctx sdk.Context, keeper Keeper, msg MsgContractDeploy)
 	if msg.Code == nil || msg.CID == nil || msg.Fee.AmountOf("noko").Int64() <= 10 {
 		return sdk.ErrUnknownRequest("there is invalid contract or not exist").Result()
 	}
-	_ := keeper.DeployContract(ctx, msg.CID, msg.Code)
+	keeper.DeployContract(ctx, msg.CID, msg.Code)
 	return sdk.Result{}
 }
 

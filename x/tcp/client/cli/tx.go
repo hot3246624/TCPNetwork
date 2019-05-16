@@ -14,6 +14,12 @@ import (
 	authtxb "github.com/cosmos/cosmos-sdk/x/auth/client/txbuilder"
 )
 
+const (
+	flagFrom   = "From"
+	flagTo     = "To"
+	flagAmount = "Amount"
+)
+
 // GetCmdTransfer is the CLI command for sending coins
 func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 	cmd := &cobra.Command{
@@ -24,19 +30,19 @@ func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 			cliCtx := context.NewCLIContext().WithCodec(cdc).WithAccountDecoder(cdc)
 			txBldr := authtxb.NewTxBuilderFromCLI().WithTxEncoder(utils.GetTxEncoder(cdc))
 
-			from := viper.GetString("flagFrom")
-			to := viper.GetString("flagTo")
-			amount := viper.GetString("flagAmount")
+			from := viper.GetString(flagFrom)
+			to := viper.GetString(flagTo)
+			amount := viper.GetString(flagAmount)
 
 			// get from address
 			fromAddr, err := sdk.AccAddressFromBech32(from)
-			if (err != nil) {
+			if err != nil {
 				return err
 			}
 
 			// get to address
 			toAddr, err := sdk.AccAddressFromBech32(to)
-			if (err != nil) {
+			if err != nil {
 				return err
 			}
 
@@ -59,12 +65,12 @@ func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().String("flagFrom", "", "from address")
-	cmd.Flags().String("flagTo", "", "to address")
-	cmd.Flags().String("flagAmount", "", "coin amount")
-	cmd.MarkFlagRequired("flagFrom")
-	cmd.MarkFlagRequired("flagTo")
-	cmd.MarkFlagRequired("flagAmount")
+	cmd.Flags().String(flagFrom, "", "from address")
+	cmd.Flags().String(flagTo, "", "to address")
+	cmd.Flags().String(flagAmount, "", "coin amount")
+	cmd.MarkFlagRequired(flagFrom)
+	cmd.MarkFlagRequired(flagTo)
+	cmd.MarkFlagRequired(flagAmount)
 
 	return cmd
 }
@@ -85,7 +91,7 @@ func GetCmdContractDeploy(cdc *codec.Codec) *cobra.Command {
 			}
 
 			fromAddr, err := sdk.AccAddressFromBech32(args[0])
-			if (err != nil) {
+			if err != nil {
 				return err
 			}
 
@@ -120,7 +126,7 @@ func GetCmdContractExec(cdc *codec.Codec) *cobra.Command {
 			}
 
 			fromAddr, err := sdk.AccAddressFromBech32(args[0])
-			if (err != nil) {
+			if err != nil {
 				return err
 			}
 
