@@ -24,3 +24,27 @@ func NewKeeper(coinKeeper bank.Keeper, storeKey sdk.StoreKey, cdc *codec.Codec) 
 		cdc:        cdc,
 	}
 }
+
+
+func (k Keeper)GetContract(ctx sdk.Context, addr sdk.Address) ConAccount {
+	store := ctx.KVStore(k.storeKey)
+	if !store.Has([]byte(addr.Bytes())) {
+		return ConAccount{}
+	}
+	var conA ConAccount
+	bz := store.Get([]byte(addr.Bytes()))
+	k.cdc.MustUnmarshalBinaryBare(bz, &conA)
+	return conA
+}
+
+
+
+func (k Keeper)GetResult(ctx sdk.Context, caller sdk.Address, addr sdk.Address) string {
+	conA := k.GetContract(ctx, addr)
+
+	return conA.Result[caller.String()]
+}
+
+func (k Keeper)SetContract(ctx sdk.Context, contractAddr sdk.Address, contactCode []byte) bool {
+
+}

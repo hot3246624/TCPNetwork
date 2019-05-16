@@ -7,10 +7,10 @@ import (
 )
 
 type ConAccount struct {
-	account auth.BaseAccount
-	code []byte
-	codeHash []byte
-	result map[string]string
+	Account auth.BaseAccount `json:"account"`
+	Code []byte
+	CodeHash []byte
+	Result map[string]string
 }
 
 func NewTCPWithDeploy(caller sdk.AccAddress,contractCode []byte) ConAccount{
@@ -26,11 +26,10 @@ func NewTCPWithDeploy(caller sdk.AccAddress,contractCode []byte) ConAccount{
 	account := auth.NewBaseAccountWithAddress(contractAddr)
 	account.SetSequence(0)
 	ContractAcc := ConAccount{
-		account:account,
-		code:contractCode,
-		codeHash: contractAddr,
+		Account:account,
+		Code:contractCode,
+		CodeHash: contractAddr,
 	}
 
 	return ContractAcc
 }
-

@@ -41,7 +41,10 @@ func handleMsgTransfer(ctx sdk.Context, keeper Keeper, msg MsgTransfer) sdk.Resu
 
 // Handle a message to deploy contract
 func handleContractDeploy(ctx sdk.Context, keeper Keeper, msg MsgContractDeploy) sdk.Result {
-	// TODO
+	// store code
+	if msg.Code != nil || msg.CID != nil || msg.Fee.AmountOf("noko").Int64() > 10 {
+
+	}
 	return sdk.Result{}
 }
 
