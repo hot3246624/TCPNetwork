@@ -1,16 +1,17 @@
 package tcp
 
 import (
-	"github.com/cosmos/cosmos-sdk/x/auth"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"encoding/binary"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/auth"
 )
 
 type ConAccount struct {
-	Account auth.BaseAccount `json:"account"`
-	Code []byte `json:"code"`
-	CodeHash []byte `json:"codehash"`
-	Result map[string]string `json:"result"`
+
+	Account auth.BaseAccount	`json:"account"`
+	Code []byte					`json:"code"`
+	CodeHash []byte				`json:"code_hash"`
+	Result map[string]string	`json:"result"`
 }
 
 func NewTCPWithDeploy(caller sdk.AccAddress,contractCode []byte) ConAccount{

@@ -22,8 +22,8 @@ import (
 
 	app "github.com/hot3246624/TCPNetwork"
 
-	nsclient "github.com/cosmos/sdk-application-tutorial/x/nameservice/client"
-	nsrest "github.com/cosmos/sdk-application-tutorial/x/nameservice/client/rest"
+	tcpclient "github.com/hot3246624/TCPNetwork/x/tcp/client"
+	tcprest "github.com/hot3246624/TCPNetwork/x/tcp/client/rest"
 )
 
 const (
@@ -46,7 +46,7 @@ func main() {
 	config.Seal()
 
 	mc := []sdk.ModuleClients{
-		nsclient.NewModuleClient(storeTCP, cdc),
+		tcpclient.NewModuleClient(storeTCP, cdc),
 	}
 
 	rootCmd := &cobra.Command{
@@ -86,7 +86,7 @@ func registerRoutes(rs *lcd.RestServer) {
 	tx.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc)
 	auth.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc, storeAcc)
 	bank.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc, rs.KeyBase)
-	nsrest.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc, storeTCP)
+	tcprest.RegisterRoutes(rs.CliCtx, rs.Mux, rs.Cdc, storeTCP)
 }
 
 func queryCmd(cdc *amino.Codec, mc []sdk.ModuleClients) *cobra.Command {
