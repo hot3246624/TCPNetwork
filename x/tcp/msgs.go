@@ -98,11 +98,11 @@ func NewMsgContractDeploy(from sdk.AccAddress, code []byte) MsgContractDeploy {
 	contractAcc := NewTCPWithDeploy(from, code)
 	return MsgContractDeploy{
 		from,
-		contractAcc.account.Address,
-		contractAcc.code,
-		contractAcc.codeHash,
+		contractAcc.Account.Address,
+		contractAcc.Code,
+		contractAcc.CodeHash,
 		[]byte{0},
-		contractAcc.account.Coins,
+		contractAcc.Account.Coins,
 	}
 }
 

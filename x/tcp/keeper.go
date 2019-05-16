@@ -25,7 +25,6 @@ func NewKeeper(coinKeeper bank.Keeper, storeKey sdk.StoreKey, cdc *codec.Codec) 
 	}
 }
 
-
 func (k Keeper)GetContract(ctx sdk.Context, addr sdk.Address) ConAccount {
 	store := ctx.KVStore(k.storeKey)
 	if !store.Has([]byte(addr.Bytes())) {
@@ -46,5 +45,5 @@ func (k Keeper)GetResult(ctx sdk.Context, caller sdk.Address, addr sdk.Address) 
 }
 
 func (k Keeper)SetContract(ctx sdk.Context, contractAddr sdk.Address, contactCode []byte) bool {
-
+	return true
 }
