@@ -2,6 +2,7 @@ package rest
 
 import (
 	"fmt"
+	"github.com/hot3246624/TCPNetwork/x/tcp"
 	"net/http"
 
 	"github.com/cosmos/cosmos-sdk/client/context"
@@ -33,7 +34,7 @@ func transferHandler(cdc *codec.Codec, cliCtx context.CLIContext) http.HandlerFu
 		// TODO
 
 		var req transferReq
-		var msg
+		var msg tcp.MsgTransfer
 
 		baseReq := req.BaseReq.Sanitize()
 		clientrest.WriteGenerateStdTxResponse(w, cdc, cliCtx, baseReq, []sdk.Msg{msg})
