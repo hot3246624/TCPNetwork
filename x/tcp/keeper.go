@@ -39,12 +39,26 @@ func (k Keeper)GetContract(ctx sdk.Context, addr sdk.Address) ConAccount {
 
 
 
-func (k Keeper)GetResult(ctx sdk.Context, caller sdk.Address, addr sdk.Address) string {
-	conA := k.GetContract(ctx, addr)
-
+func (k Keeper)GetResult(ctx sdk.Context, caller sdk.Address, contractAddr sdk.Address) string {
+	conA := k.GetContract(ctx, contractAddr)
 	return conA.Result[caller.String()]
 }
 
-func (k Keeper)SetContract(ctx sdk.Context, contractAddr sdk.Address, contactCode []byte) bool {
+func (k Keeper)DeployContract(ctx sdk.Context, contractAddr sdk.AccAddress, contactCode []byte) bool {
+	// if there is a contract exist, cannot deploy contract.
+	store := ctx.KVStore(k.storeKey)
+	if !store.Has([]byte(contractAddr.Bytes())) {
+		return false
+	}
+	conAccount := NewTCPWithDeploy(contractAddr, contactCode)
+	store.Set(contractAddr.Bytes(), k.cdc.MustMarshalBinaryBare(conAccount))
+	return true
+}
 
+func (k Keeper)SetContractState(ctx sdk.Context, contractAddr sdk.AccAddress, addr sdk.AccAddress, result string) bool {
+	conA := k.GetContract(ctx, contractAddr)
+	conA.Result[addr.String()] = result
+	store := ctx.KVStore(k.storeKey)
+	store.Set(conA.Account.Address.Bytes(), k.cdc.MustMarshalBinaryBare(conA))
+	return true
 }

@@ -8,9 +8,9 @@ import (
 
 type ConAccount struct {
 	Account auth.BaseAccount `json:"account"`
-	Code []byte
-	CodeHash []byte
-	Result map[string]string
+	Code []byte `json:"code"`
+	CodeHash []byte `json:"codehash"`
+	Result map[string]string `json:"result"`
 }
 
 func NewTCPWithDeploy(caller sdk.AccAddress,contractCode []byte) ConAccount{

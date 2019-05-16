@@ -42,14 +42,18 @@ func handleMsgTransfer(ctx sdk.Context, keeper Keeper, msg MsgTransfer) sdk.Resu
 // Handle a message to deploy contract
 func handleContractDeploy(ctx sdk.Context, keeper Keeper, msg MsgContractDeploy) sdk.Result {
 	// store code
-	if msg.Code != nil || msg.CID != nil || msg.Fee.AmountOf("noko").Int64() > 10 {
-
+	if msg.Code == nil || msg.CID == nil || msg.Fee.AmountOf("noko").Int64() <= 10 {
+		return sdk.ErrUnknownRequest("there is invalid contract or not exist").Result()
 	}
+	_ := keeper.DeployContract(ctx, msg.CID, msg.Code)
 	return sdk.Result{}
 }
 
 // Handle a message to exec contract
 func handleMsgContractExec(ctx sdk.Context, keeper Keeper, msg MsgContractExec) sdk.Result {
-	// TODO
+	if msg.Fee.AmountOf("noko").Int64() <= 2 {
+		return sdk.ErrInsufficientCoins("does not have enough coins").Result()
+	}
+	keeper.SetContractState(ctx, msg.CID, msg.From, string(msg.ResultHash[:]))
 	return sdk.Result{}
 }
