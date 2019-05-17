@@ -18,9 +18,9 @@ import (
 
 // RegisterRoutes - Central function to define routes that get registered by the main application
 func RegisterRoutes(cliCtx context.CLIContext, r *mux.Router, cdc *codec.Codec, storeName string) {
-	r.HandleFunc(fmt.Sprintf("/%s", storeName), transferHandler(cdc, cliCtx)).Methods("POST")
-	r.HandleFunc(fmt.Sprintf("/%s", storeName), deployContractHandler(cdc, cliCtx)).Methods("POST")
-	r.HandleFunc(fmt.Sprintf("/%s", storeName), execContractHandler(cdc, cliCtx)).Methods("POST")
+	r.HandleFunc(fmt.Sprintf("custom/%s", storeName), transferHandler(cdc, cliCtx)).Methods("POST")
+	r.HandleFunc(fmt.Sprintf("custom/%s", storeName), deployContractHandler(cdc, cliCtx)).Methods("POST")
+	r.HandleFunc(fmt.Sprintf("custom/%s", storeName), execContractHandler(cdc, cliCtx)).Methods("POST")
 }
 
 

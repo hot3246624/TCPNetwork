@@ -35,7 +35,7 @@ func (mc ModuleClient) GetTxCmd() *cobra.Command {
 
 // GetQueryCmd returns the cli query commands for this module
 func (mc ModuleClient) GetQueryCmd() *cobra.Command {
-	// Group nameservice queries under a subcommand
+	// Group tcp queries under a subcommand
 	tcpTxCmd := &cobra.Command{
 		Use:   "tcp",
 		Short: "Querying commands for the tcp module",
@@ -47,4 +47,3 @@ func (mc ModuleClient) GetQueryCmd() *cobra.Command {
 
 	return tcpTxCmd
 }
-
