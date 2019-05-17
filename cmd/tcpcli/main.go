@@ -44,6 +44,7 @@ const (
 var defaultCLIHome = os.ExpandEnv("$HOME/.tcpcli")
 
 func main() {
+
 	cobra.EnableCommandSorting = false
 
 	cdc := app.MakeCodec()
@@ -83,6 +84,10 @@ func main() {
 		keys.Commands(),
 		client.LineBreak,
 	)
+
+	for _, m := range mc {
+		rootCmd.AddCommand(m.GetTxCmd())
+	}
 
 	executor := cli.PrepareMainCmd(rootCmd, "TCP", defaultCLIHome)
 	err := executor.Execute()
@@ -137,18 +142,12 @@ func txCmd(cdc *amino.Codec, mc []sdk.ModuleClients) *cobra.Command {
 		client.LineBreak,
 	)
 
-	for _, m := range mc {
-		txCmd.AddCommand(m.GetTxCmd())
-	}
-
 	return txCmd
 }
 
 func transferCmd(cdc *amino.Codec, mc []sdk.ModuleClients) *cobra.Command {
-	//cobra.EnableCommandSorting = false
-
 	cmd := &cobra.Command{
-		Use:   "transfer 【from】 【to】 【amount】",
+		Use:   "transfer [from] [to] [amount]",
 		Short: "transfer asset",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc).WithAccountDecoder(cdc)
