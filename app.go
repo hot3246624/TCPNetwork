@@ -103,6 +103,10 @@ func NewTCPApp(logger log.Logger, db dbm.DB) *tcpApp {
 		AddRoute("bank", bank.NewHandler(app.bankKeeper)).
 		AddRoute("tcp", tcp.NewHandler(app.tcpKeeper))
 
+	// The app.QueryRouter is the main query router where each module registers its routes
+	app.QueryRouter().
+		AddRoute("acc", auth.NewQuerier(app.accountKeeper))
+
 	//// The app.QueryRouter is the main query router where each module registers its routes
 	//app.QueryRouter().
 	//	AddRoute("tcp", tcp.NewQuerier(app.tcpKeeper)).
