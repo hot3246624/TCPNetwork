@@ -98,7 +98,7 @@ func GetCmdContractDeploy(cdc *codec.Codec) *cobra.Command {
 			}
 
 			// TODO
-			msg := tcp.NewMsgContractDeploy(fromAddr, []byte(""))
+			msg := tcp.NewMsgContractDeploy(fromAddr, []byte(args[1]))
 			err = msg.ValidateBasic()
 			if err != nil {
 				return err
