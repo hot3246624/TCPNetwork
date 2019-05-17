@@ -15,10 +15,9 @@ type ConAccount struct {
 }
 
 func NewTCPWithDeploy(caller sdk.AccAddress,contractCode []byte) ConAccount{
-	//for test, create a new account
-	callerAcc := auth.NewBaseAccountWithAddress(caller)
-	addr := callerAcc.GetAddress().Bytes()
-	nonce := callerAcc.GetSequence()
+
+	addr := caller
+	nonce := uint64(8)
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, nonce)
 	cAddr := append(addr, b...)
