@@ -1,6 +1,10 @@
 package main
 
 import (
+	"fmt"
+	"github.com/cosmos/cosmos-sdk/client/context"
+	"github.com/cosmos/cosmos-sdk/client/utils"
+	"github.com/hot3246624/TCPNetwork/x/tcp"
 	"os"
 	"path"
 
@@ -17,6 +21,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authcmd "github.com/cosmos/cosmos-sdk/x/auth/client/cli"
 	auth "github.com/cosmos/cosmos-sdk/x/auth/client/rest"
+	authtxb "github.com/cosmos/cosmos-sdk/x/auth/client/txbuilder"
 	bankcmd "github.com/cosmos/cosmos-sdk/x/bank/client/cli"
 	bank "github.com/cosmos/cosmos-sdk/x/bank/client/rest"
 
@@ -29,7 +34,12 @@ import (
 const (
 	storeAcc = "acc"
 	storeTCP = "tcp"
+
+	flagFrom     = "from"
+	flagTo     = "to"
+	flagAmount = "amount"
 )
+
 
 var defaultCLIHome = os.ExpandEnv("$HOME/.tcpcli")
 
@@ -66,6 +76,7 @@ func main() {
 		client.ConfigCmd(defaultCLIHome),
 		queryCmd(cdc, mc),
 		txCmd(cdc, mc),
+		transferCmd(cdc, mc),
 		client.LineBreak,
 		lcd.ServeCommand(cdc, registerRoutes),
 		client.LineBreak,
@@ -132,6 +143,64 @@ func txCmd(cdc *amino.Codec, mc []sdk.ModuleClients) *cobra.Command {
 
 	return txCmd
 }
+
+func transferCmd(cdc *amino.Codec, mc []sdk.ModuleClients) *cobra.Command {
+	//cobra.EnableCommandSorting = false
+
+	cmd := &cobra.Command{
+		Use:   "transfer 【from】 【to】 【amount】",
+		Short: "transfer asset",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cliCtx := context.NewCLIContext().WithCodec(cdc).WithAccountDecoder(cdc)
+			txBldr := authtxb.NewTxBuilderFromCLI().WithTxEncoder(utils.GetTxEncoder(cdc))
+
+			// from := viper.GetString(flagFrom)
+			to := viper.GetString(flagTo)
+			amount := viper.GetString(flagAmount)
+
+			if err := cliCtx.EnsureAccountExists(); err != nil {
+				fmt.Println("from account not exists")
+				return err
+			}
+
+			// get from address
+			fromAddr := cliCtx.GetFromAddress()
+
+			// get to address
+			toAddr, err := sdk.AccAddressFromBech32(to)
+			if err != nil {
+				return err
+			}
+
+			// get transfer amount
+			coins, err := sdk.ParseCoins(amount)
+			if err != nil {
+				return err
+			}
+
+			// TODO
+			msg := tcp.NewMsgTransfer(fromAddr, toAddr, coins)
+			err = msg.ValidateBasic()
+			if err != nil {
+				return err
+			}
+
+			cliCtx.PrintResponse = true
+
+			return utils.GenerateOrBroadcastMsgs(cliCtx, txBldr, []sdk.Msg{msg}, false)
+		},
+	}
+
+	cmd.Flags().String(flagFrom, "", "from address")
+	cmd.Flags().String(flagTo, "", "to address")
+	cmd.Flags().String(flagAmount, "", "coin amount")
+	cmd.MarkFlagRequired(flagTo)
+	cmd.MarkFlagRequired(flagAmount)
+
+
+	return cmd
+}
+
 
 func initConfig(cmd *cobra.Command) error {
 	home, err := cmd.PersistentFlags().GetString(cli.HomeFlag)

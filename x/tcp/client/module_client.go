@@ -27,7 +27,8 @@ func (mc ModuleClient) GetTxCmd() *cobra.Command {
 	}
 
 	tcpTxCmd.AddCommand(client.PostCommands(
-		tcpcmd.GetCmdTransfer(mc.cdc),
+		tcpcmd.GetCmdContractDeploy(mc.cdc),
+		tcpcmd.GetCmdContractExec(mc.cdc),
 	)...)
 
 	return tcpTxCmd
