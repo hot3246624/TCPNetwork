@@ -6,6 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/utils"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+
 
 	"github.com/hot3246624/TCPNetwork/x/tcp"
 
@@ -13,19 +15,24 @@ import (
 	authtxb "github.com/cosmos/cosmos-sdk/x/auth/client/txbuilder"
 )
 
+const (
+	flagFrom   = "Fromx"
+	flagTo     = "to"
+	flagAmount = "amount"
+)
+
 // GetCmdTransfer is the CLI command for sending coins
 func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "transfer from to amount",
 		Short: "transfer coins",
-		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc).WithAccountDecoder(cdc)
 			txBldr := authtxb.NewTxBuilderFromCLI().WithTxEncoder(utils.GetTxEncoder(cdc))
 
-			from := args[0]
-			to := args[1]
-			amount := args[2]
+
+			to := viper.GetString(flagTo)
+			amount := viper.GetString(flagAmount)
 
 			if err := cliCtx.EnsureAccountExists(); err != nil {
 				fmt.Println("from account not exists")
@@ -33,10 +40,7 @@ func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 			}
 
 			// get from address
-			_, err := sdk.AccAddressFromBech32(from)
-			if err != nil {
-				return err
-			}
+			fromAddr := cliCtx.GetFromAddress()
 
 			// get to address
 			toAddr, err := sdk.AccAddressFromBech32(to)
@@ -51,7 +55,7 @@ func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 			}
 
 			// TODO
-			msg := tcp.NewMsgTransfer(cliCtx.GetFromAddress(), toAddr, coins)
+			msg := tcp.NewMsgTransfer(fromAddr, toAddr, coins)
 			err = msg.ValidateBasic()
 			if err != nil {
 				return err
@@ -62,6 +66,12 @@ func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 			return utils.GenerateOrBroadcastMsgs(cliCtx, txBldr, []sdk.Msg{msg}, false)
 		},
 	}
+
+	cmd.Flags().String(flagTo, "", "to address")
+	cmd.Flags().String(flagAmount, "", "coin amount")
+	cmd.MarkFlagRequired(flagTo)
+	cmd.MarkFlagRequired(flagAmount)
+
 
 	return cmd
 }
