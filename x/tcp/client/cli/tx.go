@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
@@ -15,7 +16,7 @@ import (
 )
 
 const (
-	flagFrom   = "From"
+	flagFrom   = "Fromx"
 	flagTo     = "To"
 	flagAmount = "Amount"
 )
@@ -25,7 +26,6 @@ func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "transfer from to amount",
 		Short: "transfer coins",
-		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc).WithAccountDecoder(cdc)
 			txBldr := authtxb.NewTxBuilderFromCLI().WithTxEncoder(utils.GetTxEncoder(cdc))
@@ -33,6 +33,8 @@ func GetCmdTransfer(cdc *codec.Codec) *cobra.Command {
 			from := viper.GetString(flagFrom)
 			to := viper.GetString(flagTo)
 			amount := viper.GetString(flagAmount)
+
+			fmt.Println(from, to, amount)
 
 			// get from address
 			fromAddr, err := sdk.AccAddressFromBech32(from)
