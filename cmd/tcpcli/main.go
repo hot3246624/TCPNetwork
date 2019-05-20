@@ -190,7 +190,6 @@ func transferCmd(cdc *amino.Codec, mc []sdk.ModuleClients) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().String(flagFrom, "", "from address")
 	cmd.Flags().StringP(flagFrom, "f", "", "from address")
 	cmd.Flags().StringP(flagTo, "t", "", "to address")
 	cmd.Flags().StringP(flagAmount, "a", "", "coin amount")
