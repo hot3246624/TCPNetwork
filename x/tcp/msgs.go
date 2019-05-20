@@ -111,7 +111,7 @@ func NewMsgContractDeploy(from sdk.AccAddress, code []byte) MsgContractDeploy {
 func (msg MsgContractDeploy) Route() string { return "tcp" }
 
 // Type should return the action
-func (msg MsgContractDeploy) Type() string { return "transfer" }
+func (msg MsgContractDeploy) Type() string { return "contract deploy" }
 
 // ValidateBasic runs stateless checks on the message
 func (msg MsgContractDeploy) ValidateBasic() sdk.Error {
@@ -167,7 +167,7 @@ func NewMsgContractExec(from sdk.AccAddress) MsgContractExec {
 func (msg MsgContractExec) Route() string { return "tcp" }
 
 // Type should return the action
-func (msg MsgContractExec) Type() string { return "transfer" }
+func (msg MsgContractExec) Type() string { return "contract execute" }
 
 // ValidateBasic runs stateless checks on the message
 func (msg MsgContractExec) ValidateBasic() sdk.Error {
