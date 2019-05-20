@@ -80,9 +80,7 @@ func main() {
 		transferCmd(cdc, mc),
 		client.LineBreak,
 		lcd.ServeCommand(cdc, registerRoutes),
-		client.LineBreak,
 		keys.Commands(),
-		client.LineBreak,
 	)
 
 	for _, m := range mc {
@@ -149,9 +147,11 @@ func transferCmd(cdc *amino.Codec, mc []sdk.ModuleClients) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "transfer [from] [to] [amount]",
 		Short: "transfer asset",
+		Long: ` transfer asset from an address to another address.`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc).WithAccountDecoder(cdc)
 			txBldr := authtxb.NewTxBuilderFromCLI().WithTxEncoder(utils.GetTxEncoder(cdc))
+
 
 			// from := viper.GetString(flagFrom)
 			to := viper.GetString(flagTo)
@@ -191,10 +191,13 @@ func transferCmd(cdc *amino.Codec, mc []sdk.ModuleClients) *cobra.Command {
 	}
 
 	cmd.Flags().String(flagFrom, "", "from address")
-	cmd.Flags().String(flagTo, "", "to address")
-	cmd.Flags().String(flagAmount, "", "coin amount")
+	cmd.Flags().StringP(flagFrom, "f", "", "from address")
+	cmd.Flags().StringP(flagTo, "t", "", "to address")
+	cmd.Flags().StringP(flagAmount, "a", "", "coin amount")
+	cmd.MarkFlagRequired(flagFrom)
 	cmd.MarkFlagRequired(flagTo)
 	cmd.MarkFlagRequired(flagAmount)
+
 
 
 	return cmd

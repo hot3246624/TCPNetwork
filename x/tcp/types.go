@@ -4,6 +4,11 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
+
+const (
+	appCoin = "nametoken"
+)
+
 type Amount struct {
 	Address []sdk.AccAddress	`json:"address"`
 	Value   []sdk.Coin			`json:"value"`

@@ -23,6 +23,7 @@ import (
 
 const (
 	appName = "tcp"
+
 )
 
 type tcpApp struct {

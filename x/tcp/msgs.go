@@ -93,16 +93,16 @@ func (msg MsgTransfer) GetSigners() []sdk.AccAddress {
 
 
 // NewMsgContractDeploy is a constructor function for MsgTransfer
-func NewMsgContractDeploy(from sdk.AccAddress, code []byte) MsgContractDeploy {
+func NewMsgContractDeploy(from sdk.AccAddress, CID sdk.AccAddress, code []byte, codeHash []byte) MsgContractDeploy {
 	// create contract account
-	contractAcc := NewTCPWithDeploy(from, code)
+	contractAcc := NewTCPWithDeploy(CID, code, codeHash)
 	return MsgContractDeploy{
 		from,
 		contractAcc.Account.Address,
 		contractAcc.Code,
 		contractAcc.CodeHash,
 		[]byte{0},
-		contractAcc.Account.Coins,
+		sdk.Coins{sdk.NewInt64Coin(appCoin,10)},
 	}
 }
 
@@ -157,7 +157,7 @@ func NewMsgContractExec(from sdk.AccAddress) MsgContractExec {
 		reqS,
 		[]byte("proof"),
 		[]byte("result"),
-		sdk.Coins{sdk.NewInt64Coin("noko",1)},
+		sdk.Coins{sdk.NewInt64Coin(appCoin,1)},
 
 	}
 }

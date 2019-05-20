@@ -14,9 +14,9 @@ import (
 // GetCmdContractDeploy is the CLI command for deploying contract
 func GetCmdContractDeploy(cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
-		Use:   "deploy [name] [value]",
+		Use:   "deploy [contract_addr] [contract_code] [contract_hash]",
 		Short: "deploy contract",
-		Args:  cobra.ExactArgs(2),
+		Args:  cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc).WithAccountDecoder(cdc)
 
@@ -31,8 +31,13 @@ func GetCmdContractDeploy(cdc *codec.Codec) *cobra.Command {
 				return err
 			}
 
+			CIDAddr, err := sdk.AccAddressFromBech32(args[1])
+			if err != nil {
+				return err
+			}
+
 			// TODO
-			msg := tcp.NewMsgContractDeploy(fromAddr, []byte(args[1]))
+			msg := tcp.NewMsgContractDeploy(fromAddr, CIDAddr, []byte(args[2]), []byte(args[3]))
 			err = msg.ValidateBasic()
 			if err != nil {
 				return err
