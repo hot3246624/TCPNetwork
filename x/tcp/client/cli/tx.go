@@ -14,7 +14,7 @@ import (
 // GetCmdContractDeploy is the CLI command for deploying contract
 func GetCmdContractDeploy(cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
-		Use:   "deploy [contract_addr] [contract_code] [contract_hash]",
+		Use:   "deploy [from_addr] [contract_addr] [contract_code] [contract_hash]",
 		Short: "deploy contract",
 		Args:  cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) error {
